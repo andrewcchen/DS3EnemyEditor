@@ -31,18 +31,49 @@ namespace DS3EnemyEditor
             openFileDialog.FileName = textBox_filename.Text;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                textBox_filename.Text = openFileDialog.FileName;
-                dataManager.LoadMSB3(openFileDialog.FileName);
-                button_save.Enabled = true;
+                try
+                {
+                    dataManager.LoadMSB3(openFileDialog.FileName);
+                    textBox_filename.Text = openFileDialog.FileName;
+                    button_save.Enabled = true;
+                    button_save_as.Enabled = true;
+                } catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error loading file",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    dataManager.Reset();
+                    textBox_filename.Text = "";
+                    button_save.Enabled = false;
+                    button_save_as.Enabled = false;
+                }
             }
         }
 
         private void button_save_Click(object sender, EventArgs e)
         {
+            SaveTo(textBox_filename.Text);
+        }
+
+        private void button_save_as_Click(object sender, EventArgs e)
+        {
             saveFileDialog.FileName = textBox_filename.Text;
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                dataManager.SaveMSB3(saveFileDialog.FileName);
+                SaveTo(saveFileDialog.FileName);
+            }
+        }
+
+        private void SaveTo(string location)
+        {
+            try
+            {
+                dataManager.SaveMSB3(location);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error saving file",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

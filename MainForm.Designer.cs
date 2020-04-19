@@ -36,13 +36,14 @@
             this.textBox_filename = new System.Windows.Forms.TextBox();
             this.button_delete = new System.Windows.Forms.Button();
             this.button_duplicate = new System.Windows.Forms.Button();
+            this.button_save_as = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // button_load
             // 
             this.button_load.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_load.Location = new System.Drawing.Point(1120, 616);
+            this.button_load.Location = new System.Drawing.Point(1186, 616);
             this.button_load.Name = "button_load";
             this.button_load.Size = new System.Drawing.Size(60, 36);
             this.button_load.TabIndex = 2;
@@ -54,7 +55,7 @@
             // 
             this.button_save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button_save.Enabled = false;
-            this.button_save.Location = new System.Drawing.Point(1186, 616);
+            this.button_save.Location = new System.Drawing.Point(1120, 616);
             this.button_save.Name = "button_save";
             this.button_save.Size = new System.Drawing.Size(60, 36);
             this.button_save.TabIndex = 3;
@@ -112,11 +113,25 @@
             this.button_duplicate.UseVisualStyleBackColor = true;
             this.button_duplicate.Click += new System.EventHandler(this.button_duplicate_Click);
             // 
+            // button_save_as
+            // 
+            this.button_save_as.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_save_as.Enabled = false;
+            this.button_save_as.Location = new System.Drawing.Point(1034, 616);
+            this.button_save_as.Name = "button_save_as";
+            this.button_save_as.Size = new System.Drawing.Size(80, 36);
+            this.button_save_as.TabIndex = 8;
+            this.button_save_as.Text = "Save As";
+            this.button_save_as.UseMnemonic = false;
+            this.button_save_as.UseVisualStyleBackColor = true;
+            this.button_save_as.Click += new System.EventHandler(this.button_save_as_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1258, 664);
+            this.Controls.Add(this.button_save_as);
             this.Controls.Add(this.button_duplicate);
             this.Controls.Add(this.button_delete);
             this.Controls.Add(this.textBox_filename);
@@ -141,6 +156,7 @@
         private System.Windows.Forms.TextBox textBox_filename;
         private System.Windows.Forms.Button button_delete;
         private System.Windows.Forms.Button button_duplicate;
+        private System.Windows.Forms.Button button_save_as;
     }
 }
 

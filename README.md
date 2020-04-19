@@ -12,9 +12,16 @@ If you haven't already, first unpack game files with [UXM](https://github.com/JK
 Run Binary/DS3EnemyEditor.exe and load a .msb.dcx file,e.g. 
 `C:\Program Files (x86)\Steam\steamapps\common\DARK SOULS III\Game\map\mapstudio\m30_00_00_00.msb.dcx` 
 
-After making changes, remember to save. 
-You can save to the original location and tell modengine to load it with loadUXMFiles=1, 
-or you can save to a seperate folder and load with modOverrideDirectory
+After making changes, remember to save.
+You can save to a seperate folder and have modengine load it with modOverrideDirectory.
+Or you can save to the original location and tell modengine to load it with loadUXMFiles=1. 
+
+For now, also copy the script files from [the enemy randomizer](https://www.nexusmods.com/darksouls3/mods/484) to the mod override folder.
+The mod's version of script files has all the enemy AIs in every map, otherwise enemy AI won't load.
+
+### Tips
+
+You should only need to change ModelName, ThinkParamID and NPCParamID.
 
 ### Credits
 

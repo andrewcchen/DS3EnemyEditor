@@ -90,7 +90,13 @@ namespace DS3EnemyEditor
         }
         public void SaveMSB3(String filename)
         {
+            CleanupEnemyModels();
             msb3.Write(filename);
+        }
+
+        public void Reset()
+        {
+            dataGridView.Rows.Clear();
         }
 
         public void DeleteSelected()
@@ -133,14 +139,11 @@ namespace DS3EnemyEditor
 
             int index = row.Index;
 
-            DataGridViewRow newRow = (DataGridViewRow) row.Clone();
-            for (int i = 0; i < row.Cells.Count; i++)
-            {
-                newRow.Cells[i].Value = row.Cells[i].Value;
-            }
-            dataGridView.Rows.Insert(index + 1, newRow);
-
             enemies.Insert(index + 1, new MSB3.Part.Enemy(enemies[index]));
+            enemies[index + 1].Name += "_dup";
+
+            dataGridView.Rows.Insert(index + 1, (DataGridViewRow) row.Clone());
+            UpdateRow(index + 1);
 
             UpdateRowHeaders();
         }
@@ -151,26 +154,45 @@ namespace DS3EnemyEditor
 
             DataGridViewRowCollection rows = dataGridView.Rows;
             rows.Clear();
-
-            foreach (MSB3.Part.Enemy enemy in enemies)
+            for (int i = 0; i < enemies.Count; i++)
             {
-                DataGridViewRow row = rows[rows.Add()];
-
-                row.Cells["Name"].Value = enemy.Name;
-                row.Cells["ModelName"].Value = enemy.ModelName;
-                row.Cells["ThinkParamID"].Value = enemy.ThinkParamID;
-                row.Cells["NPCParamID"].Value = enemy.NPCParamID;
-                row.Cells["EventEntityID"].Value = enemy.EventEntityID;
-                row.Cells["TalkID"].Value = enemy.TalkID;
-                row.Cells["CharaInitID"].Value = enemy.CharaInitID;
-                row.Cells["Position"].Value = enemy.Position.ToString();
-                row.Cells["Rotation"].Value = enemy.Rotation.ToString();
+                UpdateRow(rows.Add());
             }
 
             UpdateRowHeaders();
             dataGridView.AutoResizeColumns();
 
             dataGridView.CellValueChanged += CellValueChangedHandler;
+        }
+
+        private void UpdateRow(int index)
+        {
+            MSB3.Part.Enemy enemy = enemies[index];
+            DataGridViewRow row = dataGridView.Rows[index];
+            row.Cells["Name"].Value = enemy.Name;
+            row.Cells["ModelName"].Value = enemy.ModelName;
+            row.Cells["ThinkParamID"].Value = enemy.ThinkParamID;
+            row.Cells["NPCParamID"].Value = enemy.NPCParamID;
+            row.Cells["EventEntityID"].Value = enemy.EventEntityID;
+            row.Cells["TalkID"].Value = enemy.TalkID;
+            row.Cells["CharaInitID"].Value = enemy.CharaInitID;
+            row.Cells["Position"].Value = enemy.Position.ToString();
+            row.Cells["Rotation"].Value = enemy.Rotation.ToString();
+        }
+
+        private void AddEnemyModel(string modelName)
+        {
+            List<MSB3.Model.Enemy> models = msb3.Models.Enemies;
+            if (models.FindIndex(model => model.Name == modelName) == -1)
+            {
+                models.Add(new MSB3.Model.Enemy(modelName));
+            }
+        }
+
+        private void CleanupEnemyModels()
+        {
+            msb3.Models.Enemies.RemoveAll(model =>
+                msb3.Parts.Enemies.Count(p => p.ModelName == model.Name) == 0);
         }
 
         private void UpdateRowHeaders()
@@ -237,6 +259,7 @@ namespace DS3EnemyEditor
 
                 case "ModelName":
                     enemy.ModelName = (string) cell.Value;
+                    AddEnemyModel(enemy.ModelName);
                     break;
 
                 case "ThinkParamID":

@@ -64,6 +64,7 @@
             // 
             // dataGridView
             // 
+            this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -85,6 +86,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_filename.Location = new System.Drawing.Point(12, 12);
             this.textBox_filename.Name = "textBox_filename";
+            this.textBox_filename.ReadOnly = true;
             this.textBox_filename.Size = new System.Drawing.Size(1234, 26);
             this.textBox_filename.TabIndex = 5;
             // 

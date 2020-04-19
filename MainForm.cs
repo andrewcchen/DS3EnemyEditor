@@ -23,8 +23,6 @@ namespace DS3EnemyEditor
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            textBox_filename.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\DARK SOULS III\\Game\\map\\mapstudio\\m30_00_00_00.msb.dcx";
-
             dataManager.InitializeTable();
         }
 

@@ -12,16 +12,21 @@ namespace DS3EnemyEditor
 {
     public partial class MainForm : Form
     {
-        EnemyDataManager dataManager;
+        private SearchDialog searchDialog;
+
+        private EnemyDataManager dataManager;
 
         public MainForm()
         {
             InitializeComponent();
+            searchDialog = new SearchDialog();
+            this.KeyPreview = true;
+            Load += new EventHandler(LoadHandler);
+
             dataManager = new EnemyDataManager(dataGridView);
-            Load += new EventHandler(Form1_Load);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void LoadHandler(object sender, EventArgs e)
         {
             dataManager.InitializeTable();
         }
@@ -85,6 +90,43 @@ namespace DS3EnemyEditor
         private void button_duplicate_Click(object sender, EventArgs e)
         {
             dataManager.DuplicateSelected();
+        }
+
+        private void button_search_Click(object sender, EventArgs e)
+        {
+            StartSearch();
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.F))
+            {
+                StartSearch();
+                return true;
+            }
+            if (keyData == Keys.F3)
+            {
+                DoSearch();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void StartSearch()
+        {
+            if (searchDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                DoSearch();
+            }
+        }
+
+        private void DoSearch()
+        {
+            if (searchDialog.text != "" &&
+                !dataManager.SearchString(searchDialog.text))
+            {
+                MessageBox.Show("No match found", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -3,6 +3,8 @@
 Crude tool for editing enemy placement in ds3 map files.
 Developed for enemy randomizer testing.
 
+![screenshot](https://raw.githubusercontent.com/andrewcchen/DS3EnemyEditor/master/Capture.png)
+
 ### Usage
 
 Git clone or download a zip of master.
@@ -26,5 +28,7 @@ You should only need to change ModelName, ThinkParamID and NPCParamID.
 ### Credits
 
 SoulsFormats by TKGP is used to read and write game files.
+
+[Cinders wiki](http://ds3-cinders.wikidot.com/map-notes) for enemy ID and names.
 
 Shoutouts to TKGP and katalash and many more in the DS3 modding community for making the tools that make modding possible.

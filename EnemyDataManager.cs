@@ -1,6 +1,7 @@
 ﻿using SoulsFormats;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -79,6 +80,11 @@ namespace DS3EnemyEditor
             column.Name = column.HeaderText = "Rotation";
             columns.Add(column);
 
+            column = new DataGridViewColumn(template);
+            column.Name = column.HeaderText = "Description";
+            column.ReadOnly = true;
+            columns.Add(column);
+
             dataGridView.AutoResizeColumns();
         }
 
@@ -148,6 +154,42 @@ namespace DS3EnemyEditor
             UpdateRowHeaders();
         }
 
+        public bool SearchString(string str)
+        {
+            int startRow = 0, startCol = 0;
+            if (dataGridView.SelectedRows.Count > 0)
+            {
+                startRow = dataGridView.SelectedRows[0].Index;
+            } else if (dataGridView.SelectedCells.Count > 0)
+            {
+                startRow = dataGridView.SelectedCells[0].RowIndex;
+                startCol = dataGridView.SelectedCells[0].ColumnIndex;
+            }
+
+            CompareInfo compare = CultureInfo.InvariantCulture.CompareInfo;
+            int r = startRow, c = startCol;
+            do
+            {
+                c += 1;
+                if (c >= dataGridView.Columns.Count)
+                {
+                    c = 0;
+                    r += 1;
+                    if (r >= dataGridView.Rows.Count)
+                        r = 0;
+                }
+
+                if (compare.IndexOf(dataGridView[c, r].Value.ToString(), str,
+                    CompareOptions.IgnoreCase) >= 0)
+                {
+                    dataGridView.CurrentCell = dataGridView[c, r];
+                    return true;
+                }
+            } while (r != startRow || c != startCol);
+
+            return false;
+        }
+
         private void PopulateTable()
         {
             dataGridView.CellValueChanged -= CellValueChangedHandler;
@@ -178,6 +220,7 @@ namespace DS3EnemyEditor
             row.Cells["CharaInitID"].Value = enemy.CharaInitID;
             row.Cells["Position"].Value = enemy.Position.ToString();
             row.Cells["Rotation"].Value = enemy.Rotation.ToString();
+            row.Cells["Description"].Value = ChrIDs.f(enemy.ModelName);
         }
 
         private void AddEnemyModel(string modelName)
@@ -259,6 +302,7 @@ namespace DS3EnemyEditor
 
                 case "ModelName":
                     enemy.ModelName = (string) cell.Value;
+                    row.Cells["Description"].Value = ChrIDs.f(enemy.ModelName);
                     AddEnemyModel(enemy.ModelName);
                     break;
 

@@ -334,6 +334,9 @@ namespace DS3EnemyEditor
                     enemy.Rotation = ParseVector3((string)cell.Value);
                     break;
 
+                case "Description":
+                    break;
+
                 default:
                     throw new Exception("CellValueChangedHandler missing code path");
             }

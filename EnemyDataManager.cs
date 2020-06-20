@@ -145,7 +145,7 @@ namespace DS3EnemyEditor
 
             int index = row.Index;
 
-            enemies.Insert(index + 1, new MSB3.Part.Enemy(enemies[index]));
+            enemies.Insert(index + 1, enemies[index]);
             enemies[index + 1].Name += "_dup";
 
             dataGridView.Rows.Insert(index + 1, (DataGridViewRow) row.Clone());
@@ -215,7 +215,7 @@ namespace DS3EnemyEditor
             row.Cells["ModelName"].Value = enemy.ModelName;
             row.Cells["ThinkParamID"].Value = enemy.ThinkParamID;
             row.Cells["NPCParamID"].Value = enemy.NPCParamID;
-            row.Cells["EventEntityID"].Value = enemy.EventEntityID;
+            row.Cells["EventEntityID"].Value = enemy.EntityID;
             row.Cells["TalkID"].Value = enemy.TalkID;
             row.Cells["CharaInitID"].Value = enemy.CharaInitID;
             row.Cells["Position"].Value = enemy.Position.ToString();
@@ -228,7 +228,11 @@ namespace DS3EnemyEditor
             List<MSB3.Model.Enemy> models = msb3.Models.Enemies;
             if (models.FindIndex(model => model.Name == modelName) == -1)
             {
-                models.Add(new MSB3.Model.Enemy(modelName));
+
+                //models.Add(new MSB3.Model(modelName));
+                var f = new MSB3.Model.Enemy();
+                f.Name = modelName;
+                models.Add(f);
             }
         }
 
@@ -315,7 +319,7 @@ namespace DS3EnemyEditor
                     break;
 
                 case "EventEntityID":
-                    enemy.EventEntityID = (int) cell.Value;
+                    enemy.EntityID = (int) cell.Value;
                     break;
 
                 case "TalkID":
